@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -30,77 +29,77 @@ db.once('open', () => {
 
 //* Users
 const userSchema = new mongoose.Schema({
-    UserID: {
+    userID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If UserID should be unique
     },
-    Username: {
+    username: {
         type: String,
         required: true,
     },
-    PasswordHash: {
+    passwordHash: {
         type: String,
         required: true,
     },
-    Salt: {
+    salt: {
         type: String,
         required: true,
     },
-    FirstName: String,
-    LastName: String,
-    MiddleName: String,
-    Email: {
+    firstName: String,
+    lastName: String,
+    middleName: String,
+    email: {
         type: String,
         required: true,
         unique: true,
     },
-    AlternateEmail: String,
-    Phone: String,
-    AlternatePhone: String,
-    DateOfBirth: Date,
-    ProfilePictureURL: String,
-    RoleID: {
+    alternateEmail: String,
+    phone: String,
+    alternatePhone: String,
+    dateOfBirth: Date,
+    profilePictureURL: String,
+    roleID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role', // Assuming you have a "Roles" model
     },
-    DateJoined: {
+    dateJoined: {
         type: Date,
         default: Date.now,
     },
-    LastLoginDate: Date,
-    IsActive: {
+    lastLoginDate: Date,
+    isActive: {
         type: Boolean,
         default: true,
     },
-    IsAdmin: Boolean,
-    TwoFactorAuthEnabled: Boolean,
-    TwoFactorAuthKey: String,
-    ResetPasswordToken: String,
-    ResetPasswordExpiry: Date,
-    Address: String,
-    Address2: String,
-    City: String,
-    State: String,
-    PostalCode: String,
-    Country: String,
-    LanguagePreference: {
+    isAdmin: Boolean,
+    twoFactorAuthEnabled: Boolean,
+    twoFactorAuthKey: String,
+    resetPasswordToken: String,
+    resetPasswordExpiry: Date,
+    address: String,
+    address2: String,
+    city: String,
+    state: String,
+    postalCode: String,
+    country: String,
+    languagePreference: {
         type: String, // Or use an enum if you have specific language options
     },
-    TimeZone: {
+    timeZone: {
         type: String, // Or use an enum if you have specific time zone options
     },
-    FailedLoginAttempts: {
+    failedLoginAttempts: {
         type: Number,
         default: 0,
     },
-    AccountLockoutUntil: Date,
-    SecurityQuestion1: String,
-    SecurityAnswer1: String,
-    SecurityQuestion2: String,
-    SecurityAnswer2: String,
-    ReferralSource: String,
-    Notes: String,
+    accountLockoutUntil: Date,
+    securityQuestion1: String,
+    securityAnswer1: String,
+    securityQuestion2: String,
+    securityAnswer2: String,
+    referralSource: String,
+    notes: String,
 });
 
 const User = mongoose.model('User', userSchema);
@@ -110,55 +109,55 @@ const User = mongoose.model('User', userSchema);
 
 //* Roles
 const roleSchema = new mongoose.Schema({
-    RoleID: {
+    roleID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If RoleID should be unique
     },
-    RoleName: {
+    roleName: {
         type: String,
         required: true,
     },
-    Description: String,
-    IsActive: {
+    description: String,
+    isActive: {
         type: Boolean,
         default: true,
     },
-    DateCreated: {
+    dateCreated: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    CreatedBy: {
+    lastModified: Date,
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ModifiedBy: {
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    RolePriority: Number,
-    IsDefault: Boolean,
-    ColorCode: String,
-    IconURL: String,
-    MaxAllowed: Number,
-    RoleAbbreviation: String,
-    VisibilityScope: {
+    rolePriority: Number,
+    isDefault: Boolean,
+    colorCode: String,
+    iconURL: String,
+    maxAllowed: Number,
+    roleAbbreviation: String,
+    visibilityScope: {
         type: String,
         enum: ['Public', 'Private', 'Hidden'],
     },
-    ParentRoleID: {
+    parentRoleID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role', // Reference to the Role model (self-reference)
     },
-    IsExternal: Boolean,
-    ExpiresOn: Date,
-    RoleTags: [String], // Array of strings for RoleTags
-    AssignedModule: String, // Or reference to a "Modules" model if needed
-    RoleGroup: String, // Or reference to a "RoleGroups" model if needed
-    IsBillingRelated: Boolean,
-    IsRevocable: Boolean,
-    Notes: String,
+    isExternal: Boolean,
+    expiresOn: Date,
+    roleTags: [String], // Array of strings for RoleTags
+    assignedModule: String, // Or reference to a "Modules" model if needed
+    roleGroup: String, // Or reference to a "RoleGroups" model if needed
+    isBillingRelated: Boolean,
+    isRevocable: Boolean,
+    notes: String,
 });
 
 const Role = mongoose.model('Role', roleSchema);
@@ -168,78 +167,78 @@ const Role = mongoose.model('Role', roleSchema);
 
 //* Permissions
 const permissionSchema = new mongoose.Schema({
-    PermissionID: {
+    permissionID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If PermissionID should be unique
     },
-    PermissionName: {
+    permissionName: {
         type: String,
         required: true,
     },
-    Description: String,
-    IsActive: {
+    description: String,
+    isActive: {
         type: Boolean,
         default: true,
     },
-    DateCreated: {
+    dateCreated: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    CreatedBy: {
+    lastModified: Date,
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ModifiedBy: {
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Category: String,
-    IsCritical: Boolean,
-    AssociatedModule: String, // Or reference to a "Modules" model if needed
-    DefaultState: Boolean,
-    IconURL: String,
-    VisibilityScope: {
+    category: String,
+    isCritical: Boolean,
+    associatedModule: String, // Or reference to a "Modules" model if needed
+    defaultState: Boolean,
+    iconURL: String,
+    visibilityScope: {
         type: String,
         enum: ['Public', 'Private', 'Hidden'],
     },
-    IsRevocable: Boolean,
-    RolePermissionID: {
+    isRevocable: Boolean,
+    rolePermissionID: {
         type: String, // You can use Number for an integer or String for UUID
     },
-    RoleID: {
+    roleID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role', // Reference to the Role model
     },
-    PermissionID: {
+    permissionID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Permission', // Reference to the Permission model (self-reference)
     },
-    DateAssigned: Date,
-    AssignedBy: {
+    dateAssigned: Date,
+    assignedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    PermissionCode: String,
-    DisplayOrder: Number,
-    IsSystemDefault: Boolean,
-    DependentOn: {
+    permissionCode: String,
+    displayOrder: Number,
+    isSystemDefault: Boolean,
+    dependentOn: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Permission', // Reference to the Permission model (self-reference)
     },
-    PermissionLevel: {
+    permissionLevel: {
         type: String,
         enum: ['Low', 'Medium', 'High', 'Critical'],
     },
-    ExpiresOn: Date,
-    ColorCode: String,
-    APIEndpoint: String,
-    IsExternal: Boolean,
-    Tags: [String], // Array of strings for Tags
-    CanInherit: Boolean,
-    PermissionGroup: String, // Or reference to a "PermissionGroups" model if needed
-    Notes: String,
+    expiresOn: Date,
+    colorCode: String,
+    aPIEndpoint: String,
+    isExternal: Boolean,
+    tags: [String], // Array of strings for Tags
+    canInherit: Boolean,
+    permissionGroup: String, // Or reference to a "PermissionGroups" model if needed
+    notes: String,
 });
 
 const Permission = mongoose.model('Permission', permissionSchema);
@@ -249,76 +248,73 @@ const Permission = mongoose.model('Permission', permissionSchema);
 
 //* Employee Details
 const employeeDetailsSchema = new mongoose.Schema({
-    EmployeeID: {
+    employeeID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If EmployeeID should be unique
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    FirstName: String,
-    LastName: String,
-    MiddleName: String,
-    FullName: String,
-    DateOfBirth: Date,
-    Gender: {
+    firstName: String,
+    lastName: String,
+    middleName: String,
+    fullName: String,
+    dateOfBirth: Date,
+    gender: {
         type: String,
         enum: ['Male', 'Female', 'Non-Binary', 'Other'],
     },
-    Nationality: String,
-    MaritalStatus: {
+    nationality: String,
+    maritalStatus: {
         type: String,
         enum: ['Single', 'Married', 'Divorced', 'Widowed'],
     },
-    SSN: String, // Or NationalID, use one field based on your requirements
-    Address: String,
-    City: String,
-    State: String,
-    ZipCode: String,
-    Country: String,
-    PhoneNumber: String,
-    AlternativePhoneNumber: String,
-    EmergencyContactName: String,
-    EmergencyContactNumber: String,
-    Email: String,
-    PersonalEmail: String,
-    HireDate: Date,
-    TerminationDate: Date,
-    Position: String,
-    Department: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Department', // Reference to the Department model
-    },
-    ManagerID: {
+    ssn: String, // Or NationalID, use one field based on your requirements
+    address: String,
+    city: String,
+    state: String,
+    zipCode: String,
+    country: String,
+    phoneNumber: String,
+    alternativePhoneNumber: String,
+    emergencyContactName: String,
+    emergencyContactNumber: String,
+    email: String,
+    personalEmail: String,
+    hireDate: Date,
+    terminationDate: Date,
+    position: String,
+    department: String,
+    managerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model (self-reference)
     },
-    EmployeeStatus: {
+    employeeStatus: {
         type: String,
         enum: ['Active', 'Inactive', 'On Leave', 'Terminated'],
     },
-    Salary: Number,
-    BankDetails: String, // Or use JSON if it's a structured object
-    Benefits: String, // Or use JSON if it's a structured object
-    ProfilePhotoURL: String,
-    DateCreated: {
+    salary: Number,
+    bankDetails: String, // Or use JSON if it's a structured object
+    benefits: String, // Or use JSON if it's a structured object
+    profilePhotoURL: String,
+    dateCreated: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    CreatedBy: {
+    lastModified: Date,
+    createdBy: {
+       type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model
+    },
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ModifiedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User model
-    },
-    BadgeID: String,
-    TrainingCompleted: String, // Or use JSON if it's a structured object
-    Notes: String,
+    badgeID: String,
+    trainingCompleted: String, // Or use JSON if it's a structured object
+    notes: String,
 });
 
 const EmployeeDetails = mongoose.model('EmployeeDetails', employeeDetailsSchema);
@@ -328,56 +324,56 @@ const EmployeeDetails = mongoose.model('EmployeeDetails', employeeDetailsSchema)
 
 //* Employee Training
 const employeeTrainingSchema = new mongoose.Schema({
-    TrainingID: {
+    trainingID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If TrainingID should be unique
     },
-    EmployeeID: {
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    TrainingName: String,
-    TrainingType: {
+    trainingName: String,
+    trainingType: {
         type: String,
         enum: ['Onboarding', 'Skills Development', 'Safety', 'Compliance', 'Software', 'Workshop'],
     },
-    TrainingProvider: String,
-    TrainingDescription: String,
-    StartDate: Date,
-    EndDate: Date,
-    Duration: Number,
-    Location: String,
-    InstructorName: String,
-    TrainingMaterials: String, // Or use JSON if it's a structured object
-    TrainingCost: Number,
-    CertificationReceived: Boolean,
-    CertificationName: String,
-    CertificationExpiryDate: Date,
-    PerformanceScore: {
+    trainingProvider: String,
+    trainingDescription: String,
+    startDate: Date,
+    endDate: Date,
+    duration: Number,
+    location: String,
+    instructorName: String,
+    trainingMaterials: String, // Or use JSON if it's a structured object
+    trainingCost: Number,
+    certificationReceived: Boolean,
+    certificationName: String,
+    certificationExpiryDate: Date,
+    performanceScore: {
         type: mongoose.Schema.Types.Mixed, // Can be Decimal or String, use Mixed type
     },
-    TrainingStatus: {
+    trainingStatus: {
         type: String,
         enum: ['Completed', 'Ongoing', 'Scheduled', 'Cancelled'],
     },
-    Attachments: String, // Or use JSON if it's a structured object
-    DateCreated: {
+    attachments: String, // Or use JSON if it's a structured object
+    dateCreated: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    CreatedBy: {
+    lastModified: Date,
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ModifiedBy: {
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    FeedbackLink: String,
-    FollowUpDate: Date,
-    Notes: String,
+    feedbackLink: String,
+    followUpDate: Date,
+    notes: String,
 });
 
 const EmployeeTraining = mongoose.model('EmployeeTraining', employeeTrainingSchema);
@@ -387,68 +383,68 @@ const EmployeeTraining = mongoose.model('EmployeeTraining', employeeTrainingSche
 
 //* Employee Performance
 const employeePerformanceSchema = new mongoose.Schema({
-    PerformanceID: {
+    performanceID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If PerformanceID should be unique
     },
-    EmployeeID: {
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    ReviewPeriodStart: Date,
-    ReviewPeriodEnd: Date,
-    ReviewerID: {
+    reviewPeriodStart: Date,
+    reviewPeriodEnd: Date,
+    reviewerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model for the Reviewer
     },
-    JobRoleExpectation: String,
-    TasksCompleted: String, // Or use JSON if it's a structured object
-    TaskPerformanceRating: {
+    jobRoleExpectation: String,
+    tasksCompleted: String, // Or use JSON if it's a structured object
+    taskPerformanceRating: {
         type: mongoose.Schema.Types.Mixed, // Can be Enum or Decimal, use Mixed type
     },
-    SkillsetEvaluation: String, // Or use JSON if it's a structured object
-    SkillsetRating: {
+    skillsetEvaluation: String, // Or use JSON if it's a structured object
+    skillsetRating: {
         type: mongoose.Schema.Types.Mixed, // Can be Enum or Decimal, use Mixed type
     },
-    BehavioralEvaluation: String, // Or use JSON if it's a structured object
-    BehavioralRating: {
+    behavioralEvaluation: String, // Or use JSON if it's a structured object
+    behavioralRating: {
         type: mongoose.Schema.Types.Mixed, // Can be Enum or Decimal, use Mixed type
     },
-    Achievements: String,
-    AreasOfImprovement: String,
-    TrainingRecommendations: String,
-    GoalsForNextPeriod: String,
-    OverallRating: {
+    achievements: String,
+    areasOfImprovement: String,
+    trainingRecommendations: String,
+    goalsForNextPeriod: String,
+    overallRating: {
         type: mongoose.Schema.Types.Mixed, // Can be Enum or Decimal, use Mixed type
     },
-    PromotionRecommendation: Boolean,
-    RaiseRecommendation: Number,
-    CommentsByReviewer: String,
-    CommentsByEmployee: String,
-    NextReviewDate: Date,
-    ReviewStatus: {
+    promotionRecommendation: Boolean,
+    raiseRecommendation: Number,
+    commentsByReviewer: String,
+    commentsByEmployee: String,
+    nextReviewDate: Date,
+    reviewStatus: {
         type: String,
         enum: ['Draft', 'Completed', 'Acknowledged by Employee'],
     },
-    DateCreated: {
+    dateCreated: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    CreatedBy: {
+    lastModified: Date,
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ModifiedBy: {
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Attachments: String, // Or use JSON if it's a structured object
-    AcknowledgedByEmployee: Boolean,
-    AcknowledgmentDate: Date,
-    ConfidentialNotes: String,
-    Notes: String,
+    attachments: String, // Or use JSON if it's a structured object
+    acknowledgedByEmployee: Boolean,
+    acknowledgmentDate: Date,
+    confidentialNotes: String,
+    notes: String,
 });
 
 const EmployeePerformance = mongoose.model('EmployeePerformance', employeePerformanceSchema);
@@ -459,54 +455,54 @@ const EmployeePerformance = mongoose.model('EmployeePerformance', employeePerfor
 
 //* Employee Attendance
 const employeeAttendanceSchema = new mongoose.Schema({
-    AttendanceID: {
+    attendanceID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If AttendanceID should be unique
     },
-    EmployeeID: {
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    Date: Date,
-    ClockInTime: Date,
-    ClockOutTime: Date,
-    BreakStartTime: Date,
-    BreakEndTime: Date,
-    TotalHoursWorked: Number,
-    OvertimeHours: Number,
-    AttendanceStatus: {
+    date: Date,
+    clockInTime: Date,
+    clockOutTime: Date,
+    breakStartTime: Date,
+    breakEndTime: Date,
+    totalHoursWorked: Number,
+    overtimeHours: Number,
+    attendanceStatus: {
         type: String,
         enum: ['Present', 'Absent', 'Late', 'Early Departure', 'On Leave'],
     },
-    LeaveType: {
+    leaveType: {
         type: String,
         enum: ['Sick', 'Vacation', 'Unpaid', 'Paid', 'Bereavement', 'Maternity/Paternity', 'Other'],
     },
-    LateReason: String,
-    EarlyDepartureReason: String,
-    ModifiedBy: {
+    lateReason: String,
+    earlyDepartureReason: String,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    DateCreated: {
+    dateCreated: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    Location: String,
-    ShiftType: {
+    lastModified: Date,
+    location: String,
+    shiftType: {
         type: String,
         enum: ['Morning', 'Afternoon', 'Night', 'Flexible'],
     },
-    ShiftStartTime: Date,
-    ShiftEndTime: Date,
-    VerifiedBy: {
+    shiftStartTime: Date,
+    shiftEndTime: Date,
+    verifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Attachments: String, // Or use JSON if it's a structured object
-    Notes: String,
+    attachments: String, // Or use JSON if it's a structured object
+    notes: String,
 });
 
 const EmployeeAttendance = mongoose.model('EmployeeAttendance', employeeAttendanceSchema);
@@ -516,61 +512,61 @@ const EmployeeAttendance = mongoose.model('EmployeeAttendance', employeeAttendan
 
 //* Inventory
 const inventorySchema = new mongoose.Schema({
-    ProductID: {
+    productID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If ProductID should be unique
     },
-    ProductName: String,
-    ProductType: {
+    productName: String,
+    productType: {
         type: String,
         enum: ['Beer', 'Wine', 'Spirits', 'Cider', 'Liquor', 'Mixers', 'Other'],
     },
-    Brand: String,
-    SupplierID: {
+    brand: String,
+    supplierID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Supplier', // Reference to the Supplier model
     },
-    ABV: Number,
-    Volume: Number,
-    BatchNumber: String,
-    ProductionDate: Date,
-    ExpirationDate: Date,
-    CurrentStock: Number,
-    ReservedStock: Number,
-    MinimumStockLevel: Number,
-    PurchasePrice: Number,
-    SellingPrice: Number,
-    Location: String,
-    Barcode: String,
-    QRCode: String,
-    ProductDescription: String,
-    ProductImageURL: String,
-    ProductStatus: {
+    abv: Number,
+    volume: Number,
+    batchNumber: String,
+    productionDate: Date,
+    expirationDate: Date,
+    currentStock: Number,
+    reservedStock: Number,
+    minimumStockLevel: Number,
+    purchasePrice: Number,
+    sellingPrice: Number,
+    location: String,
+    barcode: String,
+    qrCode: String,
+    productDescription: String,
+    productImageURL: String,
+    productStatus: {
         type: String,
         enum: ['Active', 'Discontinued', 'Out of Stock', 'Other'],
     },
-    DateAdded: {
+    dateAdded: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    LastOrderDate: Date,
-    LastSoldDate: Date,
-    Packaging: {
+    lastOrderDate: Date,
+    lastSoldDate: Date,
+    packaging: {
         type: String,
         enum: ['Bottle', 'Can', 'Box', 'Keg', 'Other'],
     },
-    Weight: Number,
-    Dimensions: String,
-    CountryOfOrigin: String,
-    Varietal: String,
-    Vintage: String,
-    Notes: String,
+    weight: Number,
+    dimensions: String,
+    countryOfOrigin: String,
+    varietal: String,
+    vintage: String,
+    notes: String,
 });
 
 const Inventory = mongoose.model('Inventory', inventorySchema);
@@ -581,63 +577,60 @@ const Inventory = mongoose.model('Inventory', inventorySchema);
 
 //* Products
 const productSchema = new mongoose.Schema({
-    ProductID: {
+    productID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
         unique: true, // If ProductID should be unique
     },
-    ProductName: String,
-    ProductType: {
+    productName: String,
+    productType: {
         type: String,
         enum: ['Beer', 'Wine', 'Spirits', 'Cider', 'Liquor', 'Mixers', 'Other'],
     },
-    BrandID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Brand', // Reference to the Brand model
-    },
-    SupplierID: {
+    brandID: String, //! or Reference to the Brand model (DO NOT EXIST)
+    supplierID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Supplier', // Reference to the Supplier model
     },
-    ABV: Number,
-    Volume: Number,
-    ProductDescription: String,
-    Barcode: String,
-    QRCode: String,
-    SuggestedRetailPrice: Number,
-    ProductImageURL: String,
-    ProductStatus: {
+    abv: Number,
+    volume: Number,
+    productDescription: String,
+    barcode: String,
+    qrCode: String,
+    suggestedRetailPrice: Number,
+    productImageURL: String,
+    productStatus: {
         type: String,
         enum: ['Active', 'Discontinued', 'Other'],
     },
-    Packaging: {
+    packaging: {
         type: String,
         enum: ['Bottle', 'Can', 'Box', 'Keg', 'Other'],
     },
-    Weight: Number,
-    Dimensions: String,
-    CountryOfOrigin: String,
-    Varietal: String,
-    Vintage: Number, // Assuming it's a year, so using Number data type
-    ProductionDate: Date,
-    ExpirationDate: Date,
-    Awards: String,
-    PairingSuggestions: String,
-    TastingNotes: String,
-    BatchNumber: String,
-    Ingredients: String,
-    StorageInstructions: String,
-    ServingInstructions: String,
-    DateAdded: {
+    weight: Number,
+    dimensions: String,
+    countryOfOrigin: String,
+    varietal: String,
+    vintage: Number, // Assuming it's a year, so using Number data type
+    productionDate: Date,
+    expirationDate: Date,
+    awards: String,
+    pairingSuggestions: String,
+    tastingNotes: String,
+    batchNumber: String,
+    ingredients: String,
+    storageInstructions: String,
+    servingInstructions: String,
+    dateAdded: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const Product = mongoose.model('Product', productSchema);
@@ -648,30 +641,30 @@ const Product = mongoose.model('Product', productSchema);
 
 //* Product Categories
 const productCategorySchema = new mongoose.Schema({
-    CategoryID: {
+    categoryId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If CategoryID should be unique
+        unique: true, // If categoryId should be unique
     },
-    CategoryName: String,
-    ParentCategoryID: {
+    categoryName: String,
+    parentCategoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ProductCategory', // Reference to the ProductCategory model (self-reference)
     },
-    CategoryDescription: String,
-    IconURL: String,
-    DisplayOrder: Number,
-    IsActive: Boolean,
-    DateAdded: {
+    categoryDescription: String,
+    iconUrl: String,
+    displayOrder: Number,
+    isActive: Boolean,
+    dateAdded: {
         type: Date,
         default: Date.now,
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const ProductCategory = mongoose.model('ProductCategory', productCategorySchema);
@@ -683,48 +676,48 @@ const ProductCategory = mongoose.model('ProductCategory', productCategorySchema)
 
 //* Product Reviews
 const productReviewSchema = new mongoose.Schema({
-    ReviewID: {
+    reviewId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If ReviewID should be unique
+        unique: true, // If reviewId should be unique
     },
-    ProductID: {
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model
     },
-    UserID: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Rating: Number,
-    ReviewTitle: String,
-    ReviewContent: String,
-    ReviewDate: {
+    rating: Number,
+    reviewTitle: String,
+    reviewContent: String,
+    reviewDate: {
         type: Date,
         default: Date.now,
     },
-    IsVerifiedPurchase: Boolean,
-    HelpfulVotes: Number,
-    UnhelpfulVotes: Number,
-    ReviewStatus: {
+    isVerifiedPurchase: Boolean,
+    helpfulVotes: Number,
+    unhelpfulVotes: Number,
+    reviewStatus: {
         type: String,
         enum: ['Approved', 'Pending', 'Rejected'],
     },
-    ReviewerLocation: String,
-    ResponseUserID: {
+    reviewerLocation: String,
+    responseUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model for response
     },
-    ResponseContent: String,
-    ResponseDate: Date,
-    ReviewImagesURLs: [String], // Array of image URLs
-    FlagCount: Number,
-    LastModified: Date,
-    ModifiedBy: {
+    responseContent: String,
+    responseDate: Date,
+    reviewImagesUrls: [String], // Array of image URLs
+    flagCount: Number,
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const ProductReview = mongoose.model('ProductReview', productReviewSchema);
@@ -736,60 +729,54 @@ const ProductReview = mongoose.model('ProductReview', productReviewSchema);
 
 //* Sales
 const salesSchema = new mongoose.Schema({
-    SaleID: {
+    saleId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If SaleID should be unique
+        unique: true, // If saleId should be unique
     },
-    ProductID: {
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model
     },
-    UserID: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    CustomerID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer', // Reference to the Customer model
-    },
-    InvoiceNumber: String,
-    QuantitySold: Number,
-    SalePrice: Number,
-    TotalAmount: Number,
-    DiscountAmount: Number,
-    FinalAmount: Number,
-    SaleDate: {
+    customerId: String, //! or Reference to the Customer model (DO NOT EXIST)
+    invoiceNumber: String,
+    quantitySold: Number,
+    salePrice: Number,
+    totalAmount: Number,
+    discountAmount: Number,
+    finalAmount: Number,
+    saleDate: {
         type: Date,
         default: Date.now,
     },
-    PaymentMethod: {
+    paymentMethod: {
         type: String,
         enum: ['Cash', 'Credit Card', 'Debit Card', 'Online Transfer', 'Other'],
     },
-    PaymentStatus: {
+    paymentStatus: {
         type: String,
         enum: ['Paid', 'Pending', 'Partial', 'Refunded'],
     },
-    DeliveryStatus: {
+    deliveryStatus: {
         type: String,
         enum: ['Pending', 'Dispatched', 'Delivered', 'Returned'],
     },
-    DeliveryDate: Date,
-    ShippingAddressID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ShippingAddress', // Reference to the ShippingAddress model
-    },
-    RefundReason: String,
-    RefundDate: Date,
-    TaxAmount: Number,
-    CommissionAmount: Number,
-    LastModified: Date,
-    ModifiedBy: {
+    deliveryDate: Date,
+    shippingAddressId: String, //! or Reference to the ShippingAddress model (DO NOT EXIST)
+    refundReason: String,
+    refundDate: Date,
+    taxAmount: Number,
+    commissionAmount: Number,
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const Sale = mongoose.model('Sale', salesSchema);
@@ -800,43 +787,43 @@ const Sale = mongoose.model('Sale', salesSchema);
 
 //* Sales Target
 const salesTargetSchema = new mongoose.Schema({
-    TargetID: {
+    targetId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If TargetID should be unique
+        unique: true, // If targetId should be unique
     },
-    UserID: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    StartDate: Date,
-    EndDate: Date,
-    ProductCategoryID: {
+    startDate: Date,
+    endDate: Date,
+    productCategoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ProductCategory', // Reference to the ProductCategory model
     },
-    ProductID: {
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model
     },
-    TargetQuantity: Number,
-    TargetRevenue: Number,
-    ActualQuantity: Number,
-    ActualRevenue: Number,
-    TargetStatus: {
+    targetQuantity: Number,
+    targetRevenue: Number,
+    actualQuantity: Number,
+    actualRevenue: Number,
+    targetStatus: {
         type: String,
         enum: ['Achieved', 'Pending', 'Missed'],
     },
-    AssignedBy: {
+    assignedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const SalesTarget = mongoose.model('SalesTarget', salesTargetSchema);
@@ -846,61 +833,52 @@ const SalesTarget = mongoose.model('SalesTarget', salesTargetSchema);
 
 //* Orders
 const orderSchema = new mongoose.Schema({
-    OrderID: {
+    orderId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If OrderID should be unique
+        unique: true, // If orderId should be unique
     },
-    CustomerID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer', // Reference to the Customer model
-    },
-    UserID: {
+    customerId: String, //! Reference to the Customer model (DO NOT EXIST)    
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    OrderDate: {
+    orderDate: {
         type: Date,
         default: Date.now,
     },
-    EstimatedDeliveryDate: Date,
-    ActualDeliveryDate: Date,
-    ShippingAddressID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ShippingAddress', // Reference to the ShippingAddress model
-    },
-    BillingAddressID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'BillingAddress', // Reference to the BillingAddress model
-    },
-    OrderStatus: {
+    estimatedDeliveryDate: Date,
+    actualDeliveryDate: Date,
+    shippingAddressId: String, //! or Reference to the ShippingAddress model (DO NOT EXIST)
+    billingAddressId: String, //! Reference to the BillingAddress model (DO NOT EXIST)    
+    orderStatus: {
         type: String,
         enum: ['Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned'],
     },
-    TotalAmount: Number,
-    TaxAmount: Number,
-    DiscountAmount: Number,
-    FinalAmount: Number,
-    PaymentMethod: {
+    totalAmount: Number,
+    taxAmount: Number,
+    discountAmount: Number,
+    finalAmount: Number,
+    paymentMethod: {
         type: String,
         enum: ['Cash', 'Credit Card', 'Debit Card', 'Online Transfer', 'Other'],
     },
-    PaymentStatus: {
+    paymentStatus: {
         type: String,
         enum: ['Paid', 'Pending', 'Partial', 'Refunded'],
     },
-    PaymentDate: Date,
-    RefundAmount: Number,
-    RefundDate: Date,
-    OrderNotes: String,
-    TrackingNumber: String,
-    CourierService: String,
-    LastModified: Date,
-    ModifiedBy: {
+    paymentDate: Date,
+    refundAmount: Number,
+    refundDate: Date,
+    orderNotes: String,
+    trackingNumber: String,
+    courierService: String,
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const Order = mongoose.model('Order', orderSchema);
@@ -910,38 +888,38 @@ const Order = mongoose.model('Order', orderSchema);
 
 //* Order Details
 const orderDetailSchema = new mongoose.Schema({
-    OrderDetailID: {
+    orderDetailId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If OrderDetailID should be unique
+        unique: true, // If orderDetailId should be unique
     },
-    OrderID: {
+    orderId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order', // Reference to the Order model
     },
-    ProductID: {
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model
     },
-    ProductName: String,
-    QuantityOrdered: Number,
-    UnitPrice: Number,
-    Discount: Number,
-    TotalItemAmount: Number,
-    ItemStatus: {
+    productName: String,
+    quantityOrdered: Number,
+    unitPrice: Number,
+    discount: Number,
+    totalItemAmount: Number,
+    itemStatus: {
         type: String,
         enum: ['Pending', 'Shipped', 'Delivered', 'Returned', 'Cancelled'],
     },
-    ExpectedDeliveryDate: Date,
-    ActualDeliveryDate: Date,
-    ReturnDate: Date,
-    ReturnReason: String,
-    LastModified: Date,
-    ModifiedBy: {
+    expectedDeliveryDate: Date,
+    actualDeliveryDate: Date,
+    returnDate: Date,
+    returnReason: String,
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const OrderDetail = mongoose.model('OrderDetail', orderDetailSchema);
@@ -952,59 +930,53 @@ const OrderDetail = mongoose.model('OrderDetail', orderDetailSchema);
 
 //* Clients
 const clientSchema = new mongoose.Schema({
-    ClientID: {
+    clientId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If ClientID should be unique
+        unique: true, // If clientId should be unique
     },
-    ClientName: String,
-    ClientType: {
+    clientName: String,
+    clientType: {
         type: String,
         enum: ['Individual', 'Business'],
     },
-    ContactFirstName: String,
-    ContactLastName: String,
-    Email: String,
-    PhoneNumber: String,
-    AlternativePhoneNumber: String,
-    FaxNumber: String,
-    BillingAddressID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'BillingAddress', // Reference to the BillingAddress model
-    },
-    ShippingAddressID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ShippingAddress', // Reference to the ShippingAddress model
-    },
-    ClientStatus: {
+    contactFirstName: String,
+    contactLastName: String,
+    email: String,
+    phoneNumber: String,
+    alternativePhoneNumber: String,
+    faxNumber: String,
+    shippingAddressId: String, //! or Reference to the ShippingAddress model (DO NOT EXIST)
+    billingAddressId: String, //! Reference to the BillingAddress model (DO NOT EXIST)    
+    clientStatus: {
         type: String,
         enum: ['Active', 'Inactive', 'Archived'],
     },
-    RegistrationDate: {
+    registrationDate: {
         type: Date,
         default: Date.now,
     },
-    LastOrderDate: Date,
-    TotalLifetimeValue: Number,
-    PreferredPaymentMethod: {
+    lastOrderDate: Date,
+    totalLifetimeValue: Number,
+    preferredPaymentMethod: {
         type: String,
         enum: ['Cash', 'Credit Card', 'Debit Card', 'Online Transfer', 'Other'],
     },
-    AssignedSalesRepID: {
+    assignedSalesRepId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    TaxID: String,
-    Website: String,
-    IndustryType: String,
-    CreditLimit: Number,
-    OutstandingBalance: Number,
-    LastModified: Date,
-    ModifiedBy: {
+    taxId: String,
+    website: String,
+    industryType: String,
+    creditLimit: Number,
+    outstandingBalance: Number,
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const Client = mongoose.model('Client', clientSchema);
@@ -1015,64 +987,64 @@ const Client = mongoose.model('Client', clientSchema);
 
 //* Clients Feedbacks
 const clientsFeedbackSchema = new mongoose.Schema({
-    FeedbackID: {
+    feedbackId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If FeedbackID should be unique
+        unique: true, // If feedbackId should be unique
     },
-    ClientID: {
+    clientId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Client', // Reference to the Client model
     },
-    FeedbackDate: {
+    feedbackDate: {
         type: Date,
         default: Date.now,
     },
-    FeedbackChannel: {
+    feedbackChannel: {
         type: String,
         enum: ['Email', 'Phone', 'Website', 'In-Person', 'Other'],
     },
-    FeedbackCategory: {
+    feedbackCategory: {
         type: String,
         enum: ['Compliment', 'Complaint', 'Suggestion', 'Query', 'Other'],
     },
-    FeedbackSubject: String,
-    FeedbackDetail: String,
-    FeedbackStatus: {
+    feedbackSubject: String,
+    feedbackDetail: String,
+    feedbackStatus: {
         type: String,
         enum: ['New', 'In Review', 'Addressed', 'Resolved', 'Closed'],
     },
-    AssignedTo: {
+    assignedTo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ResolutionDate: Date,
-    ResolutionDetail: String,
-    ClientFollowUpDate: Date,
-    ClientFollowUpNotes: String,
-    FeedbackImpact: {
+    resolutionDate: Date,
+    resolutionDetail: String,
+    clientFollowUpDate: Date,
+    clientFollowUpNotes: String,
+    feedbackImpact: {
         type: String,
         enum: ['High', 'Medium', 'Low'],
     },
-    RelatedOrderID: {
+    relatedOrderId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order', // Reference to the Order model
     },
-    RelatedProductID: {
+    relatedProductId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model
     },
-    Attachments: [String], // Array of attachment URLs
-    FeedbackRating: {
+    attachments: [String], // Array of attachment URLs
+    feedbackRating: {
         type: String,
         enum: ['1-5', '1-10', 'Other'], // You can adjust this enum as needed
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const ClientsFeedback = mongoose.model('ClientsFeedback', clientsFeedbackSchema);
@@ -1082,58 +1054,58 @@ const ClientsFeedback = mongoose.model('ClientsFeedback', clientsFeedbackSchema)
 
 //* Suppliers
 const supplierSchema = new mongoose.Schema({
-    SupplierID: {
+    supplierId: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If SupplierID should be unique
+        unique: true, // If supplierId should be unique
     },
-    SupplierName: String,
-    ContactFirstName: String,
-    ContactLastName: String,
-    ContactTitle: String,
-    Email: String,
-    PhoneNumber: String,
-    AlternativePhoneNumber: String,
-    FaxNumber: String,
-    Address: String,
-    City: String,
-    State: String,
-    Country: String,
-    PostalCode: String,
-    Website: String,
-    SupplierType: {
+    supplierName: String,
+    contactFirstName: String,
+    contactLastName: String,
+    contactTitle: String,
+    email: String,
+    phoneNumber: String,
+    alternativePhoneNumber: String,
+    faxNumber: String,
+    address: String,
+    city: String,
+    state: String,
+    country: String,
+    postalCode: String,
+    website: String,
+    supplierType: {
         type: String,
         enum: ['Goods', 'Services', 'Both'],
     },
-    SupplierStatus: {
+    supplierStatus: {
         type: String,
         enum: ['Active', 'Inactive', 'Archived'],
     },
-    RegistrationDate: {
+    registrationDate: {
         type: Date,
         default: Date.now,
     },
-    LastOrderDate: Date,
-    PaymentTerms: String,
-    BankDetails: String,
-    TaxID: String,
-    PreferredCommunicationMethod: {
+    lastOrderDate: Date,
+    paymentTerms: String,
+    bankDetails: String,
+    taxId: String,
+    preferredCommunicationMethod: {
         type: String,
         enum: ['Email', 'Phone', 'Fax', 'Postal'],
     },
-    ContractStartDate: Date,
-    ContractEndDate: Date,
-    AttachmentLinks: [String], // Array of attachment URLs
-    AssignedAccountManagerID: {
+    contractStartDate: Date,
+    contractEndDate: Date,
+    attachmentLinks: [String], // Array of attachment URLs
+    assignedAccountManagerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const Supplier = mongoose.model('Supplier', supplierSchema);
@@ -1144,48 +1116,48 @@ const Supplier = mongoose.model('Supplier', supplierSchema);
 
 //* Supplier Products
 const supplierProductSchema = new mongoose.Schema({
-    SupplierProductID: {
+    supplierProductID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If SupplierProductID should be unique
+        unique: true, // If supplierProductID should be unique
     },
-    SupplierID: {
+    supplierID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Supplier', // Reference to the Supplier model
     },
-    ProductID: {
+    productID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model
     },
-    PurchasePrice: Number,
-    MinimumOrderQuantity: Number,
-    LeadTime: Number,
-    DiscountTerms: String,
-    DiscountPercentage: Number,
-    LastPurchasedDate: Date,
-    LastPurchasedQuantity: Number,
-    ContractualStatus: {
+    purchasePrice: Number,
+    minimumOrderQuantity: Number,
+    leadTime: Number,
+    discountTerms: String,
+    discountPercentage: Number,
+    lastPurchasedDate: Date,
+    lastPurchasedQuantity: Number,
+    contractualStatus: {
         type: String,
         enum: ['On Contract', 'Ad-hoc', 'Not Available'],
     },
-    WarrantyPeriod: Number,
-    ReturnPolicy: String,
-    AvailabilityStatus: {
+    warrantyPeriod: Number,
+    returnPolicy: String,
+    availabilityStatus: {
         type: String,
         enum: ['Available', 'Out of Stock', 'Discontinued'],
     },
-    ExclusiveDeal: Boolean,
-    AttachmentLinks: [String], // Array of attachment URLs
-    ProductRating: {
+    exclusiveDeal: Boolean,
+    attachmentLinks: [String], // Array of attachment URLs
+    productRating: {
         type: String,
         enum: ['1', '2', '3', '4', '5'], // Adjust as needed
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const SupplierProduct = mongoose.model('SupplierProduct', supplierProductSchema);
@@ -1196,47 +1168,47 @@ const SupplierProduct = mongoose.model('SupplierProduct', supplierProductSchema)
 
 //* Supplier Ratings
 const supplierRatingSchema = new mongoose.Schema({
-    RatingID: {
+    ratingID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If RatingID should be unique
+        unique: true, // If ratingID should be unique
     },
-    SupplierID: {
+    supplierID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Supplier', // Reference to the Supplier model
     },
-    RatedByUserID: {
+    ratedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    RatingDate: {
+    ratingDate: {
         type: Date,
         default: Date.now,
     },
-    ProductQualityScore: Number,
-    DeliveryPunctualityScore: Number,
-    PricingFairnessScore: Number,
-    CommunicationScore: Number,
-    SupportResponseScore: Number,
-    OverallRating: Number,
-    ReviewText: String,
-    AttachmentsLinks: [String], // Array of attachment URLs
-    RatingStatus: {
+    productQualityScore: Number,
+    deliveryPunctualityScore: Number,
+    pricingFairnessScore: Number,
+    communicationScore: Number,
+    supportResponseScore: Number,
+    overallRating: Number,
+    reviewText: String,
+    attachmentsLinks: [String], // Array of attachment URLs
+    ratingStatus: {
         type: String,
         enum: ['Draft', 'Finalized', 'Archived'],
     },
-    FollowUpActionRequired: Boolean,
-    ActionNotes: String,
-    FollowUpActionStatus: {
+    followUpActionRequired: Boolean,
+    actionNotes: String,
+    followUpActionStatus: {
         type: String,
         enum: ['Pending', 'In Progress', 'Completed'],
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Notes: String,
+    notes: String,
 });
 
 const SupplierRating = mongoose.model('SupplierRating', supplierRatingSchema);
@@ -1247,52 +1219,52 @@ const SupplierRating = mongoose.model('SupplierRating', supplierRatingSchema);
 
 //* Contacts
 const contactSchema = new mongoose.Schema({
-    ContractID: {
+    contractID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If ContractID should be unique
+        unique: true, // If contractID should be unique
     },
-    ContractName: String,
-    ContractType: {
+    contractName: String,
+    contractType: {
         type: String,
         enum: ['Supplier', 'Client', 'Employee', 'Other'],
     },
-    RelatedEntityID: {
+    relatedEntityID: {
         type: String, // You can use Number for an integer or String for UUID
     },
-    StartDate: Date,
-    EndDate: Date,
-    Duration: Number,
-    Value: Number,
-    PaymentTerms: String,
-    ContractStatus: {
+    startDate: Date,
+    endDate: Date,
+    duration: Number,
+    value: Number,
+    paymentTerms: String,
+    contractStatus: {
         type: String,
         enum: ['Active', 'Pending', 'Expired', 'Terminated', 'Draft'],
     },
-    RenewalStatus: {
+    renewalStatus: {
         type: String,
         enum: ['Auto-renewal', 'Manual', 'Not Renewable'],
     },
-    TerminationConditions: String,
-    SpecialClauses: String,
-    DocumentLink: String,
-    PrimaryContactID: {
+    terminationConditions: String,
+    specialClauses: String,
+    documentLink: String,
+    primaryContactID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    CreatedBy: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    LastModified: Date,
-    ModifiedBy: {
+    lastModified: Date,
+    modifiedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Attachments: [String], // Array of attachment URLs
-    ReviewDate: Date,
-    SignatoryDetails: String,
-    Notes: String,
+    attachments: [String], // Array of attachment URLs
+    reviewDate: Date,
+    signatoryDetails: String,
+    notes: String,
 });
 
 const Contact = mongoose.model('Contact', contactSchema);
@@ -1303,55 +1275,52 @@ const Contact = mongoose.model('Contact', contactSchema);
 
 //* Messages
 const messageSchema = new mongoose.Schema({
-    MessageID: {
+    messageID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If MessageID should be unique
+        unique: true, // If messageID should be unique
     },
-    SenderID: {
+    senderID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    RecipientID: {
+    recipientID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Subject: String,
-    MessageBody: String,
-    SentDateTime: {
+    subject: String,
+    messageBody: String,
+    sentDateTime: {
         type: Date,
         default: Date.now,
     },
-    ReadDateTime: Date,
-    AttachmentLinks: [String], // Array of attachment URLs
-    ThreadID: {
+    readDateTime: Date,
+    attachmentLinks: [String], // Array of attachment URLs
+    threadID: {
         type: String, // You can use Number for an integer or String for UUID
     },
-    MessageType: {
+    messageType: {
         type: String,
         enum: ['Direct', 'System Notification', 'Group', 'Other'],
     },
-    Priority: {
+    priority: {
         type: String,
         enum: ['Normal', 'High', 'Urgent'],
     },
-    Status: {
+    status: {
         type: String,
         enum: ['Unread', 'Read', 'Archived', 'Deleted'],
     },
-    ReplyToMessageID: {
+    replyToMessageID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Message', // Reference to the Message model
     },
-    IsStarred: Boolean,
-    Labels: [String], // Array of label names
-    RecipientGroupID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'RecipientGroup', // Reference to the RecipientGroup model
-    },
-    DeletedBySender: Boolean,
-    DeletedByRecipient: Boolean,
-    Notes: String,
+    isStarred: Boolean,
+    labels: [String], // Array of label names
+    recipientGroupID: String, //! Reference to the RecipientGroup model (DO NOT EXIST)
+    deletedBySender: Boolean,
+    deletedByRecipient: Boolean,
+    notes: String,
 });
 
 const Message = mongoose.model('Message', messageSchema);
@@ -1361,45 +1330,42 @@ const Message = mongoose.model('Message', messageSchema);
 
 //* Notifications
 const notificationSchema = new mongoose.Schema({
-    NotificationID: {
+    notificationID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If NotificationID should be unique
+        unique: true, // If notificationID should be unique
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    NotificationType: {
+    notificationType: {
         type: String,
         enum: ['System Alert', 'Reminder', 'Update', 'Task', 'Other'],
     },
-    Title: String,
-    Message: String,
-    CreatedDateTime: {
+    title: String,
+    message: String,
+    createdDateTime: {
         type: Date,
         default: Date.now,
     },
-    ReadDateTime: Date,
-    AssociatedLink: String,
-    Priority: {
+    readDateTime: Date,
+    associatedLink: String,
+    priority: {
         type: String,
         enum: ['Normal', 'High', 'Critical'],
     },
-    Status: {
+    status: {
         type: String,
         enum: ['Unread', 'Read', 'Archived', 'Dismissed'],
     },
-    TriggerEvent: String,
-    ExpirationDateTime: Date,
-    Icon: String,
-    ActionButtons: String, // You can use JSON if needed
-    SourceModule: String,
-    GroupID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'NotificationGroup', // Reference to the NotificationGroup model
-    },
-    Notes: String,
+    triggerEvent: String,
+    expirationDateTime: Date,
+    icon: String,
+    actionButtons: String, // You can use JSON if needed
+    sourceModule: String,
+    groupID: String, //! Reference to the NotificationGroup model (DO NOT EXIST)
+    notes: String,
 });
 
 const Notification = mongoose.model('Notification', notificationSchema);
@@ -1410,56 +1376,53 @@ const Notification = mongoose.model('Notification', notificationSchema);
 
 //* Social Media Posts
 const socialMediaPostSchema = new mongoose.Schema({
-    PostID: {
+    postID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If PostID should be unique
+        unique: true, // If postID should be unique
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    Content: String,
-    MediaLink: String,
-    PostedDateTime: {
+    content: String,
+    mediaLink: String,
+    postedDateTime: {
         type: Date,
         default: Date.now,
     },
-    LastEditedDateTime: Date,
-    LikesCount: Number,
-    CommentsCount: Number,
-    SharesCount: Number,
-    Visibility: {
+    lastEditedDateTime: Date,
+    likesCount: Number,
+    commentsCount: Number,
+    sharesCount: Number,
+    visibility: {
         type: String,
         enum: ['Public', 'Friends', 'Only Me', 'Custom'],
     },
-    LocationTag: String,
-    Hashtags: [String], // Array of hashtags
-    MentionedUsers: [{
+    locationTag: String,
+    hashtags: [String], // Array of hashtags
+    mentionedUsers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     }],
-    ParentPostID: {
+    parentPostID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SocialMediaPost', // Reference to the SocialMediaPost model
     },
-    PostType: {
+    postType: {
         type: String,
         enum: ['Text', 'Image', 'Video', 'Link', 'Other'],
     },
-    URLs: [String], // Array of URL links
-    SourcePlatform: {
+    urls: [String], // Array of URL links
+    sourcePlatform: {
         type: String,
         enum: ['Internal', 'Facebook', 'Twitter', 'Other'],
     },
-    PinnedStatus: Boolean,
-    ArchivedStatus: Boolean,
-    ReportCount: Number,
-    AssociatedEventID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event', // Reference to the Event model
-    },
-    Notes: String,
+    pinnedStatus: Boolean,
+    archivedStatus: Boolean,
+    reportCount: Number,
+    associatedEventID: String, //! Reference to the Event model (DO NOT EXIST)
+    notes: String,
 });
 
 const SocialMediaPost = mongoose.model('SocialMediaPost', socialMediaPostSchema);
@@ -1470,47 +1433,47 @@ const SocialMediaPost = mongoose.model('SocialMediaPost', socialMediaPostSchema)
 
 //* Social Media Comments
 const socialMediaCommentSchema = new mongoose.Schema({
-    CommentID: {
+    commentID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If CommentID should be unique
+        unique: true, // If commentID should be unique
     },
-    PostID: {
+    postID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SocialMediaPost', // Reference to the SocialMediaPost model
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ParentCommentID: {
+    parentCommentID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SocialMediaComment', // Reference to the SocialMediaComment model
     },
-    Content: String,
-    PostedDateTime: {
+    content: String,
+    postedDateTime: {
         type: Date,
         default: Date.now,
     },
-    LastEditedDateTime: Date,
-    LikesCount: Number,
-    MentionedUsers: [{
+    lastEditedDateTime: Date,
+    likesCount: Number,
+    mentionedUsers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     }],
-    MediaLink: String,
-    Visibility: {
+    mediaLink: String,
+    visibility: {
         type: String,
         enum: ['Public', 'Friends', 'Only Me'],
     },
-    ReportCount: Number,
-    Hashtags: [String], // Array of hashtags
-    Status: {
+    reportCount: Number,
+    hashtags: [String], // Array of hashtags
+    status: {
         type: String,
         enum: ['Active', 'Deleted', 'Archived'],
     },
-    URLs: [String], // Array of URL links
-    Notes: String,
+    urls: [String], // Array of URL links
+    notes: String,
 });
 
 const SocialMediaComment = mongoose.model('SocialMediaComment', socialMediaCommentSchema);
@@ -1520,40 +1483,40 @@ const SocialMediaComment = mongoose.model('SocialMediaComment', socialMediaComme
 
 //* Social Media Likes
 const socialMediaLikeSchema = new mongoose.Schema({
-    LikeID: {
+    likeID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If LikeID should be unique
+        unique: true, // If likeID should be unique
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    PostID: {
+    postID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SocialMediaPost', // Reference to the SocialMediaPost model
     },
-    CommentID: {
+    commentID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SocialMediaComment', // Reference to the SocialMediaComment model
     },
-    LikedDateTime: {
+    likedDateTime: {
         type: Date,
         default: Date.now,
     },
-    LikeType: {
+    likeType: {
         type: String,
         enum: ['Like', 'Love', 'Laugh', 'Other'],
     },
-    Status: {
+    status: {
         type: String,
         enum: ['Active', 'Removed'],
     },
-    SourcePlatform: {
+    sourcePlatform: {
         type: String,
         enum: ['Internal', 'Facebook', 'Twitter', 'Other'],
     },
-    Notes: String,
+    notes: String,
 });
 
 const SocialMediaLike = mongoose.model('SocialMediaLike', socialMediaLikeSchema);
@@ -1564,57 +1527,54 @@ const SocialMediaLike = mongoose.model('SocialMediaLike', socialMediaLikeSchema)
 
 //* Reports
 const reportSchema = new mongoose.Schema({
-    ReportID: {
+    reportID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If ReportID should be unique
+        unique: true, // If reportID should be unique
     },
-    ReportName: String,
-    ReportDescription: String,
-    CreatedByUserID: {
+    reportName: String,
+    reportDescription: String,
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    CreatedDateTime: {
+    createdDateTime: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ModifiedDateTime: Date,
-    ReportType: {
+    modifiedDateTime: Date,
+    reportType: {
         type: String,
         enum: ['Sales', 'Inventory', 'Marketing', 'Performance', 'Other'],
     },
-    ReportStatus: {
+    reportStatus: {
         type: String,
         enum: ['Draft', 'Finalized', 'Archived'],
     },
-    ReportPeriodStart: Date,
-    ReportPeriodEnd: Date,
-    DataSources: [String], // Array of data sources
-    FileLink: String,
-    Visibility: {
+    reportPeriodStart: Date,
+    reportPeriodEnd: Date,
+    dataSources: [String], // Array of data sources
+    fileLink: String,
+    visibility: {
         type: String,
         enum: ['Public', 'Private', 'Restricted'],
     },
-    ApprovalStatus: {
+    approvalStatus: {
         type: String,
         enum: ['Pending', 'Approved', 'Rejected'],
     },
-    ApprovedByUserID: {
+    approvedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    ApprovalDateTime: Date,
-    ReportTags: [String], // Array of report tags
-    AssociatedProjectID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project', // Reference to the Project model
-    },
-    Notes: String,
+    approvalDateTime: Date,
+    reportTags: [String], // Array of report tags
+    associatedProjectID: String, //! or Reference to the Project model (DO NOT EXIST)
+    notes: String,
 });
 
 const Report = mongoose.model('Report', reportSchema);
@@ -1626,51 +1586,51 @@ const Report = mongoose.model('Report', reportSchema);
 
 //* Chat Queries
 const chatQuerySchema = new mongoose.Schema({
-    QueryID: {
+    queryID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If QueryID should be unique
+        unique: true, // If queryID should be unique
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    SessionID: String,
-    QueryText: String,
-    QueryDateTime: {
+    sessionID: String,
+    queryText: String,
+    queryDateTime: {
         type: Date,
         default: Date.now,
     },
-    ResponseText: String,
-    ResponseDateTime: Date,
-    ResponseStatus: {
+    responseText: String,
+    responseDateTime: Date,
+    responseStatus: {
         type: String,
         enum: ['Successful', 'Failed', 'Pending'],
     },
-    ResponseTime: Number,
-    SourcePlatform: {
+    responseTime: Number,
+    sourcePlatform: {
         type: String,
         enum: ['Web', 'Mobile', 'API'],
     },
-    QueryContext: {
+    queryContext: {
         type: mongoose.Schema.Types.Mixed, // Can store JSON or Text
     },
-    ResponseError: String,
-    QueryLanguage: String,
-    ResponseLanguage: String,
-    Tags: [String], // Array of tags
-    UserFeedback: String,
-    UserRating: Number,
-    FollowUpAction: String,
-    FollowUpStatus: {
+    responseError: String,
+    queryLanguage: String,
+    responseLanguage: String,
+    tags: [String], // Array of tags
+    userFeedback: String,
+    userRating: Number,
+    followUpAction: String,
+    followUpStatus: {
         type: String,
         enum: ['Pending', 'Completed'],
     },
-    AssociatedTicketID: {
+    associatedTicketID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket', // Reference to the Ticket model
+        ref: 'SupportTicket', // Reference to the Ticket model
     },
-    Notes: String,
+    notes: String,
 });
 
 const ChatQuery = mongoose.model('ChatQuery', chatQuerySchema);
@@ -1682,59 +1642,59 @@ const ChatQuery = mongoose.model('ChatQuery', chatQuerySchema);
 
 //* Billing Invoices
 const billingInvoiceSchema = new mongoose.Schema({
-    InvoiceID: {
+    invoiceID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If InvoiceID should be unique
+        unique: true, // If invoiceID should be unique
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    InvoiceNumber: String,
-    InvoiceDate: {
+    invoiceNumber: String,
+    invoiceDate: {
         type: Date,
         required: true,
     },
-    DueDate: Date,
-    BillingAddress: String,
-    ShippingAddress: String,
-    TotalAmount: Number,
-    TaxAmount: Number,
-    DiscountAmount: Number,
-    SubTotal: Number,
-    Currency: String,
-    PaymentStatus: {
+    dueDate: Date,
+    billingAddress: String,
+    shippingAddress: String,
+    totalAmount: Number,
+    taxAmount: Number,
+    discountAmount: Number,
+    subTotal: Number,
+    currency: String,
+    paymentStatus: {
         type: String,
         enum: ['Paid', 'Unpaid', 'Partial', 'Overdue'],
     },
-    PaymentMethod: {
+    paymentMethod: {
         type: String,
         enum: ['Credit Card', 'Bank Transfer', 'Cash', 'Other'],
     },
-    InvoiceNotes: String,
-    OrderID: {
+    invoiceNotes: String,
+    orderID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order', // Reference to the Order model
     },
-    InvoiceItems: {
+    invoiceItems: {
         type: mongoose.Schema.Types.Mixed, // Can store JSON or reference to InvoiceItems table
     },
-    CreatedByEmployeeID: {
+    createdByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedByEmployeeID: {
+    lastModifiedByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedDate: Date,
-    TermsAndConditions: String,
-    PenaltyRate: Number,
-    PaidDate: Date,
-    PaymentReference: String,
-    BankDetails: String,
-    Notes: String,
+    lastModifiedDate: Date,
+    termsAndConditions: String,
+    penaltyRate: Number,
+    paidDate: Date,
+    paymentReference: String,
+    bankDetails: String,
+    notes: String,
 });
 
 const BillingInvoice = mongoose.model('BillingInvoice', billingInvoiceSchema);
@@ -1746,63 +1706,63 @@ const BillingInvoice = mongoose.model('BillingInvoice', billingInvoiceSchema);
 
 //* Payments
 const paymentSchema = new mongoose.Schema({
-    PaymentID: {
+    paymentID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If PaymentID should be unique
+        unique: true, // If paymentID should be unique
     },
-    InvoiceID: {
+    invoiceID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'BillingInvoice', // Reference to the BillingInvoice model
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    PaymentDate: {
+    paymentDate: {
         type: Date,
         required: true,
     },
-    PaymentAmount: Number,
-    Currency: String,
-    PaymentMethod: {
+    paymentAmount: Number,
+    currency: String,
+    paymentMethod: {
         type: String,
         enum: ['Credit Card', 'Bank Transfer', 'PayPal', 'Cash', 'Other'],
     },
-    PaymentReference: String,
-    PaymentStatus: {
+    paymentReference: String,
+    paymentStatus: {
         type: String,
         enum: ['Completed', 'Failed', 'Pending', 'Refunded'],
     },
-    PaymentNotes: String,
-    BankName: String,
-    CardType: {
+    paymentNotes: String,
+    bankName: String,
+    cardType: {
         type: String,
         enum: ['Visa', 'MasterCard', 'Amex', 'Other'],
     },
-    CardLastFourDigits: String,
-    PaymentGateway: String,
-    GatewayTransactionID: String,
-    IsRecurring: Boolean,
-    NextPaymentDate: Date,
-    PaymentFrequency: {
+    cardLastFourDigits: String,
+    paymentGateway: String,
+    gatewayTransactionID: String,
+    isRecurring: Boolean,
+    nextPaymentDate: Date,
+    paymentFrequency: {
         type: String,
         enum: ['Monthly', 'Quarterly', 'Yearly', 'Other'],
     },
-    FailureReason: String,
-    RefundAmount: Number,
-    RefundDate: Date,
-    RefundReason: String,
-    CreatedByEmployeeID: {
+    failureReason: String,
+    refundAmount: Number,
+    refundDate: Date,
+    refundReason: String,
+    createdByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedByEmployeeID: {
+    lastModifiedByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedDate: Date,
-    Notes: String,
+    lastModifiedDate: Date,
+    notes: String,
 });
 
 const Payment = mongoose.model('Payment', paymentSchema);
@@ -1813,58 +1773,58 @@ const Payment = mongoose.model('Payment', paymentSchema);
 
 //* Refunds
 const refundSchema = new mongoose.Schema({
-    RefundID: {
+    refundID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If RefundID should be unique
+        unique: true, // If refundID should be unique
     },
-    PaymentID: {
+    paymentID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Payment', // Reference to the Payment model
     },
-    InvoiceID: {
+    invoiceID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'BillingInvoice', // Reference to the BillingInvoice model
     },
-    UserID: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the User model
     },
-    RefundDate: {
+    refundDate: {
         type: Date,
         required: true,
     },
-    RefundAmount: Number,
-    Currency: String,
-    RefundMethod: {
+    refundAmount: Number,
+    currency: String,
+    refundMethod: {
         type: String,
         enum: ['Credit Card', 'Bank Transfer', 'PayPal', 'Original Payment Method', 'Other'],
     },
-    RefundReference: String,
-    RefundStatus: {
+    refundReference: String,
+    refundStatus: {
         type: String,
         enum: ['Completed', 'Failed', 'Pending'],
     },
-    RefundReason: String,
-    BankName: String, // Optional
-    CardType: {
+    refundReason: String,
+    bankName: String, // Optional
+    cardType: {
         type: String,
         enum: ['Visa', 'MasterCard', 'Amex', 'Other'], // Optional
     },
-    CardLastFourDigits: String, // Optional
-    PaymentGateway: String,
-    GatewayTransactionID: String,
-    CreatedByEmployeeID: {
+    cardLastFourDigits: String, // Optional
+    paymentGateway: String,
+    gatewayTransactionID: String,
+    createdByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedByEmployeeID: {
+    lastModifiedByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedDate: Date,
-    OriginalPaymentDate: Date,
-    Notes: String,
+    lastModifiedDate: Date,
+    originalPaymentDate: Date,
+    notes: String,
 });
 
 const Refund = mongoose.model('Refund', refundSchema);
@@ -1876,66 +1836,66 @@ const Refund = mongoose.model('Refund', refundSchema);
 
 //* Expenses
 const expenseSchema = new mongoose.Schema({
-    ExpenseID: {
+    expenseID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If ExpenseID should be unique
+        unique: true, // If expenseID should be unique
     },
-    DateIncurred: {
+    dateIncurred: {
         type: Date,
         required: true,
     },
-    Amount: {
+    amount: {
         type: Number,
         required: true,
     },
-    Currency: String,
-    ExpenseCategory: {
+    currency: String,
+    expenseCategory: {
         type: String,
         enum: ['Travel', 'Meals', 'Rent', 'Utilities', 'Other'], // Add more categories as needed
     },
-    Description: String,
-    Receipt: String, // You can store the file path or URL here
-    PaymentMethod: {
+    description: String,
+    receipt: String, // You can store the file path or URL here
+    paymentMethod: {
         type: String,
         enum: ['Credit Card', 'Bank Transfer', 'Cash', 'Cheque', 'Other'],
     },
-    Vendor: String,
-    EmployeeID: {
+    vendor: String,
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    ProjectID: {
+    projectID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project', // Reference to the Project model (optional)
     },
-    IsReimbursable: Boolean,
-    ReimbursementStatus: {
+    isReimbursable: Boolean,
+    reimbursementStatus: {
         type: String,
         enum: ['Pending', 'Approved', 'Rejected', 'Reimbursed'],
     },
-    ApprovalStatus: {
+    approvalStatus: {
         type: String,
         enum: ['Pending', 'Approved', 'Rejected'],
     },
-    ApprovedByEmployeeID: {
+    approvedByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    ApprovalDate: Date,
-    TaxAmount: Number,
-    TaxRate: Number,
-    ExpenseAccount: String, // You can use a string or reference an Accounting model if needed
-    CreatedByEmployeeID: {
+    approvalDate: Date,
+    taxAmount: Number,
+    taxRate: Number,
+    expenseAccount: String, // You can use a string or reference an Accounting model if needed
+    createdByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedByEmployeeID: {
+    lastModifiedByEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    LastModifiedDate: Date,
-    Notes: String,
+    lastModifiedDate: Date,
+    notes: String,
 });
 
 const Expense = mongoose.model('Expense', expenseSchema);
@@ -1946,39 +1906,39 @@ const Expense = mongoose.model('Expense', expenseSchema);
 
 //* Expense Categories
 const expenseCategorySchema = new mongoose.Schema({
-    CategoryID: {
+    categoryID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If CategoryID should be unique
+        unique: true, // If categoryID should be unique
     },
-    CategoryName: {
+    categoryName: {
         type: String,
         required: true,
     },
-    Description: String,
-    ParentCategoryID: {
+    description: String,
+    parentCategoryID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ExpenseCategory', // Reference to the same model (self-referential)
     },
-    DefaultTaxRate: Number,
-    IsActive: Boolean,
-    CreatedByUserID: {
+    defaultTaxRate: Number,
+    isActive: Boolean,
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    Icon: String, // Optional
-    BudgetLimit: Number, // Optional
-    ColorCode: String, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    icon: String, // Optional
+    budgetLimit: Number, // Optional
+    colorCode: String, // Optional
+    notes: String, // Optional
 });
 
 const ExpenseCategory = mongoose.model('ExpenseCategory', expenseCategorySchema);
@@ -1990,69 +1950,69 @@ const ExpenseCategory = mongoose.model('ExpenseCategory', expenseCategorySchema)
 
 //* Asset Management
 const assetSchema = new mongoose.Schema({
-    AssetID: {
+    assetID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If AssetID should be unique
+        unique: true, // If assetID should be unique
     },
-    AssetName: {
+    assetName: {
         type: String,
         required: true,
     },
-    Description: String,
-    AssetType: {
+    description: String,
+    assetType: {
         type: String,
         enum: ['Tangible', 'Intangible', 'Software', 'Hardware', 'Other'], // Add more asset types as needed
     },
-    PurchaseDate: {
+    purchaseDate: {
         type: Date,
         required: true,
     },
-    PurchasePrice: {
+    purchasePrice: {
         type: Number,
         required: true,
     },
-    Currency: String,
-    SupplierID: {
+    currency: String,
+    supplierID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Supplier', // Reference to the Suppliers model
     },
-    WarrantyExpiryDate: Date, // Optional
-    DepreciationMethod: String, // Optional
-    ResidualValue: Number, // Optional
-    UsefulLife: Number, // Optional
-    Location: String,
-    AssignedToEmployeeID: {
+    warrantyExpiryDate: Date, // Optional
+    depreciationMethod: String, // Optional
+    residualValue: Number, // Optional
+    usefulLife: Number, // Optional
+    location: String,
+    assignedToEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    MaintenanceSchedule: String, // Optional
-    LastMaintenanceDate: Date, // Optional
-    AssetStatus: {
+    maintenanceSchedule: String, // Optional
+    lastMaintenanceDate: Date, // Optional
+    assetStatus: {
         type: String,
         enum: ['Operational', 'Out for Repair', 'Decommissioned', 'Other'], // Add more statuses as needed
     },
-    DisposalDate: Date, // Optional
-    DisposalValue: Number, // Optional
-    DisposalReason: String, // Optional
-    SerialNumber: String, // Optional
-    Manufacturer: String,
-    Model: String,
-    Image: String, // File URL or base64 encoded string, optional
-    CreatedByUserID: {
+    disposalDate: Date, // Optional
+    disposalValue: Number, // Optional
+    disposalReason: String, // Optional
+    serialNumber: String, // Optional
+    manufacturer: String,
+    model: String,
+    image: String, // File URL or base64 encoded string, optional
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const Asset = mongoose.model('Asset', assetSchema);
@@ -2063,66 +2023,66 @@ const Asset = mongoose.model('Asset', assetSchema);
 
 //* Vehicle Management
 const vehicleSchema = new mongoose.Schema({
-    VehicleID: {
+    vehicleID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If VehicleID should be unique
+        unique: true, // If vehicleID should be unique
     },
-    LicensePlate: {
+    licensePlate: {
         type: String,
         required: true,
     },
-    VehicleType: {
+    vehicleType: {
         type: String,
         enum: ['Car', 'Truck', 'Motorcycle', 'Van', 'Other'], // Add more vehicle types as needed
         required: true,
     },
-    Make: String,
-    Model: String,
-    Year: Number,
-    Color: String,
-    VIN: String,
-    PurchaseDate: Date,
-    PurchasePrice: Number,
-    OdometerReadingAtPurchase: Number,
-    CurrentOdometerReading: Number,
-    LastServiceDate: Date,
-    NextServiceDue: Date,
-    FuelType: {
+    make: String,
+    model: String,
+    year: Number,
+    color: String,
+    vin: String,
+    purchaseDate: Date,
+    purchasePrice: Number,
+    odometerReadingAtPurchase: Number,
+    currentOdometerReading: Number,
+    lastServiceDate: Date,
+    nextServiceDue: Date,
+    fuelType: {
         type: String,
         enum: ['Petrol', 'Diesel', 'Electric', 'Hybrid', 'Other'], // Add more fuel types as needed
     },
-    InsuranceProvider: String,
-    InsurancePolicyNumber: String,
-    InsuranceExpiryDate: Date,
-    AssignedToEmployeeID: {
+    insuranceProvider: String,
+    insurancePolicyNumber: String,
+    insuranceExpiryDate: Date,
+    assignedToEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    Location: String,
-    VehicleStatus: {
+    location: String,
+    vehicleStatus: {
         type: String,
         enum: ['Operational', 'Out for Repair', 'Retired', 'Other'], // Add more statuses as needed
         required: true,
     },
-    Image: String, // File URL or base64 encoded string, optional
-    CreatedByUserID: {
+    image: String, // File URL or base64 encoded string, optional
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    TireType: String, // Optional
-    TireChangeDate: Date, // Optional
-    GPSModuleID: String, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    tireType: String, // Optional
+    tireChangeDate: Date, // Optional
+    gpsModuleID: String, // Optional
+    notes: String, // Optional
 });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
@@ -2133,64 +2093,64 @@ const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
 //* Logistics
 const logisticsSchema = new mongoose.Schema({
-    LogisticID: {
+    logisticID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If LogisticID should be unique
+        unique: true, // If logisticID should be unique
     },
-    OrderID: {
+    orderID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order', // Reference to the Orders model
     },
-    VehicleID: {
+    vehicleID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Vehicle', // Reference to the Vehicle Management model
     },
-    DepartureLocation: String,
-    DestinationLocation: String,
-    ScheduledDeparture: Date,
-    ActualDeparture: Date,
-    ScheduledArrival: Date,
-    ActualArrival: Date, // Optional
-    CurrentStatus: {
+    departureLocation: String,
+    destinationLocation: String,
+    scheduledDeparture: Date,
+    actualDeparture: Date,
+    scheduledArrival: Date,
+    actualArrival: Date, // Optional
+    currentStatus: {
         type: String,
         enum: ['Scheduled', 'In Transit', 'Delayed', 'Completed', 'Other'], // Add more statuses as needed
         required: true,
     },
-    DriverID: {
+    driverID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetails', // Reference to the EmployeeDetails model
     },
-    Weight: Number,
-    Volume: Number,
-    NumberOfItems: Number,
-    TransportMode: {
+    weight: Number,
+    volume: Number,
+    numberOfItems: Number,
+    transportMode: {
         type: String,
         enum: ['Road', 'Air', 'Sea', 'Rail', 'Other'], // Add more transport modes as needed
     },
-    CarrierName: String,
-    CarrierTrackingNumber: String,
-    LogisticCost: Number,
-    TemperatureRequired: Number, // Optional
-    CurrentTemperature: Number, // Optional
-    HumidityLevel: Number, // Optional
-    CreatedByUserID: {
+    carrierName: String,
+    carrierTrackingNumber: String,
+    logisticCost: Number,
+    temperatureRequired: Number, // Optional
+    currentTemperature: Number, // Optional
+    humidityLevel: Number, // Optional
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    IncidentReport: String, // Optional
-    SignatureOfReceiver: String, // File URL or base64 encoded string, optional
-    ReceivedDate: Date, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    incidentReport: String, // Optional
+    signatureOfReceiver: String, // File URL or base64 encoded string, optional
+    receivedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const Logistics = mongoose.model('Logistics', logisticsSchema);
@@ -2200,60 +2160,60 @@ const Logistics = mongoose.model('Logistics', logisticsSchema);
 
 //* Warehouse Locations
 const warehouseLocationSchema = new mongoose.Schema({
-    LocationID: {
+    locationID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If LocationID should be unique
+        unique: true, // If locationID should be unique
     },
-    WarehouseID: {
+    warehouseID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Warehouse', // Reference to the Warehouse model
+        ref: '  ', // Reference to the Warehouse model
         required: true,
     },
-    LocationCode: String,
-    ShelfNumber: Number,
-    RowNumber: Number,
-    TierNumber: Number,
-    BinNumber: String, // Optional
-    Capacity: Number,
-    CurrentOccupancy: Number,
-    OccupancyType: {
+    locationCode: String,
+    shelfNumber: Number,
+    rowNumber: Number,
+    tierNumber: Number,
+    binNumber: String, // Optional
+    capacity: Number,
+    currentOccupancy: Number,
+    occupancyType: {
         type: String,
         enum: ['Volume', 'Weight', 'Units'],
     },
-    TemperatureZone: {
+    temperatureZone: {
         type: String,
         enum: ['Frozen', 'Chilled', 'Ambient', 'Heated', 'Other'], // Add more zones as needed
     },
-    HumidityControl: Boolean,
-    SpecialAttributes: String, // Optional
-    Accessibility: {
+    humidityControl: Boolean,
+    specialAttributes: String, // Optional
+    accessibility: {
         type: String,
         enum: ['High', 'Medium', 'Low'],
     },
-    IsOccupied: Boolean,
-    AssociatedProductID: {
+    isOccupied: Boolean,
+    associatedProductID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Product model (optional)
     },
-    AssociatedInventoryID: {
+    associatedInventoryID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Inventory', // Reference to the Inventory model (optional)
     },
-    CreatedByUserID: {
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const WarehouseLocation = mongoose.model('WarehouseLocation', warehouseLocationSchema);
@@ -2265,51 +2225,51 @@ const WarehouseLocation = mongoose.model('WarehouseLocation', warehouseLocationS
 
 //* Marketing Campaigns
 const marketingCampaignSchema = new mongoose.Schema({
-    CampaignID: {
+    campaignID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If CampaignID should be unique
+        unique: true, // If campaignID should be unique
     },
-    CampaignName: String,
-    CampaignType: {
+    campaignName: String,
+    campaignType: {
         type: String,
         enum: ['Digital', 'Print', 'Event', 'TV', 'Radio', 'Other'], // Add more types as needed
     },
-    StartDate: Date,
-    EndDate: Date,
-    Budget: Number,
-    SpentAmount: Number,
-    TargetAudience: String,
-    TargetRegion: String,
-    ExpectedReach: Number,
-    ActualReach: Number,
-    ExpectedConversions: Number,
-    ActualConversions: Number,
-    KPIs: String,
-    ChannelDetails: String,
-    CampaignDescription: String,
-    CampaignStatus: {
+    startDate: Date,
+    endDate: Date,
+    budget: Number,
+    spentAmount: Number,
+    targetAudience: String,
+    targetRegion: String,
+    expectedReach: Number,
+    actualReach: Number,
+    expectedConversions: Number,
+    actualConversions: Number,
+    kpis: String,
+    channelDetails: String,
+    campaignDescription: String,
+    campaignStatus: {
         type: String,
         enum: ['Planned', 'Ongoing', 'Completed', 'Paused', 'Cancelled'],
     },
-    CreatedByUserID: {
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    AssetsURL: String, // Optional
-    Feedback: String, // Optional
-    ROI: Number, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    assetsURL: String, // Optional
+    feedback: String, // Optional
+    roi: Number, // Optional
+    notes: String, // Optional
 });
 
 const MarketingCampaign = mongoose.model('MarketingCampaign', marketingCampaignSchema);
@@ -2321,65 +2281,65 @@ const MarketingCampaign = mongoose.model('MarketingCampaign', marketingCampaignS
 
 //* Marketing Analytics
 const marketingAnalyticsSchema = new mongoose.Schema({
-    AnalyticsID: {
+    analyticsID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If AnalyticsID should be unique
+        unique: true, // If analyticsID should be unique
     },
-    CampaignID: {
+    campaignID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'MarketingCampaign', // Reference to the MarketingCampaign model
         required: true,
     },
-    Date: Date,
-    PageViews: Number,
-    Clicks: Number,
-    Impressions: Number,
-    Conversions: Number,
-    BounceRate: Number,
-    AverageSessionDuration: String, // Consider using a proper time format
-    CostPerClick: Number,
-    CostPerConversion: Number,
-    TrafficSource: String,
-    DeviceType: {
+    date: Date,
+    pageViews: Number,
+    clicks: Number,
+    impressions: Number,
+    conversions: Number,
+    bounceRate: Number,
+    averageSessionDuration: String, // Consider using a proper time format
+    costPerClick: Number,
+    costPerConversion: Number,
+    trafficSource: String,
+    deviceType: {
         type: String,
         enum: ['Mobile', 'Desktop', 'Tablet', 'Other'], // Add more types as needed
     },
-    Location: String,
-    NewVisitors: Number,
-    ReturningVisitors: Number,
-    ExitRate: Number,
-    TopKeywords: String,
-    ReferralURL: String, // Optional
-    SocialShares: Number,
-    CTR: Number,
-    FeedbackRating: Number, // Optional
-    CommentsCount: Number,
-    EngagementRate: Number,
-    RevenueGenerated: Number,
-    AdPosition: {
+    location: String,
+    newVisitors: Number,
+    returningVisitors: Number,
+    exitRate: Number,
+    topKeywords: String,
+    referralURL: String, // Optional
+    socialShares: Number,
+    ctr: Number,
+    feedbackRating: Number, // Optional
+    commentsCount: Number,
+    engagementRate: Number,
+    revenueGenerated: Number,
+    adPosition: {
         type: String,
         enum: ['Top', 'Right', 'Bottom', 'Other'], // Add more positions as needed
     },
-    AdFormat: {
+    adFormat: {
         type: String,
         enum: ['Text', 'Image', 'Video', 'Other'], // Add more formats as needed
     },
-    CreatedByUserID: {
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const MarketingAnalytics = mongoose.model('MarketingAnalytics', marketingAnalyticsSchema);
@@ -2390,57 +2350,57 @@ const MarketingAnalytics = mongoose.model('MarketingAnalytics', marketingAnalyti
 
 //* Partnerships
 const partnershipSchema = new mongoose.Schema({
-    PartnershipID: {
+    partnershipID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If PartnershipID should be unique
+        unique: true, // If partnershipID should be unique
     },
-    PartnerName: String,
-    PartnershipType: {
+    partnerName: String,
+    partnershipType: {
         type: String,
         enum: ['Affiliate', 'Distributor', 'Collaborator', 'Other'], // Add more types as needed
     },
-    StartDate: Date,
-    EndDate: Date, // Optional
-    Status: {
+    startDate: Date,
+    endDate: Date, // Optional
+    status: {
         type: String,
         enum: ['Active', 'Pending', 'Terminated', 'Other'], // Add more statuses as needed
     },
-    ContractID: {
+    contractID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Contract', // Reference to the Contracts model
     },
-    PrimaryContactName: String,
-    PrimaryContactEmail: String,
-    PrimaryContactPhone: String,
-    RevenueShare: Number,
-    AnnualReviewDate: Date,
-    LogoURL: String, // Optional
-    WebsiteURL: String, // Optional
-    Address: String,
-    City: String,
-    State: String,
-    Country: String,
-    PostalCode: String,
-    PartnershipBenefits: String, // Optional
-    PartnershipObjectives: String,
-    PerformanceMetrics: String, // Optional
-    RenewalTerms: String, // Optional
-    CreatedByUserID: {
+    primaryContactName: String,
+    primaryContactEmail: String,
+    primaryContactPhone: String,
+    revenueShare: Number,
+    annualReviewDate: Date,
+    logoURL: String, // Optional
+    websiteURL: String, // Optional
+    address: String,
+    city: String,
+    state: String,
+    country: String,
+    postalCode: String,
+    partnershipBenefits: String, // Optional
+    partnershipObjectives: String,
+    performanceMetrics: String, // Optional
+    renewalTerms: String, // Optional
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const Partnership = mongoose.model('Partnership', partnershipSchema);
@@ -2452,58 +2412,58 @@ const Partnership = mongoose.model('Partnership', partnershipSchema);
 
 //* Events And Promotions
 const eventPromoSchema = new mongoose.Schema({
-    EventPromoID: {
+    eventPromoID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If EventPromoID should be unique
+        unique: true, // If eventPromoID should be unique
     },
-    EventPromoName: String,
-    EventType: {
+    eventPromoName: String,
+    eventType: {
         type: String,
         enum: ['Event', 'Promotion', 'Launch', 'Other'], // Add more event types as needed
     },
-    StartDate: Date,
-    EndDate: Date,
-    Location: String, // Optional
-    Description: String,
-    URL: String, // Optional
-    Status: {
+    startDate: Date,
+    endDate: Date,
+    location: String, // Optional
+    description: String,
+    url: String, // Optional
+    status: {
         type: String,
         enum: ['Upcoming', 'Ongoing', 'Completed', 'Cancelled', 'Other'], // Add more statuses as needed
     },
-    TargetAudience: String, // Optional
-    MaxAttendees: Number, // Optional
-    Cost: Number,
-    DiscountPercentage: Number, // Optional
-    ProductID: {
+    targetAudience: String, // Optional
+    maxAttendees: Number, // Optional
+    cost: Number,
+    discountPercentage: Number, // Optional
+    productID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Products model (optional)
     },
-    PromoCode: String, // Optional
-    RSVPLink: String, // Optional
-    ImageURL: String, // Optional
-    OrganizerContactName: String,
-    OrganizerContactEmail: String,
-    OrganizerContactPhone: String,
-    Sponsor: String, // Optional
-    ExpectedRevenue: Number, // Optional
-    ActualRevenue: Number, // Optional
-    FeedbackLink: String, // Optional
-    CreatedByUserID: {
+    promoCode: String, // Optional
+    rsvpLink: String, // Optional
+    imageURL: String, // Optional
+    organizerContactName: String,
+    organizerContactEmail: String,
+    organizerContactPhone: String,
+    sponsor: String, // Optional
+    expectedRevenue: Number, // Optional
+    actualRevenue: Number, // Optional
+    feedbackLink: String, // Optional
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    CreatedDate: {
+    createdDate: {
         type: Date,
         default: Date.now,
     },
-    ModifiedByUserID: {
+    modifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ModifiedDate: Date, // Optional
-    Notes: String, // Optional
+    modifiedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const EventPromo = mongoose.model('EventPromo', eventPromoSchema);
@@ -2514,69 +2474,69 @@ const EventPromo = mongoose.model('EventPromo', eventPromoSchema);
 
 //* Support Tickets
 const supportTicketSchema = new mongoose.Schema({
-    TicketID: {
+    ticketID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If TicketID should be unique
+        unique: true, // If ticketID should be unique
     },
-    Subject: String,
-    Description: String,
-    UserID: {
+    subject: String,
+    description: String,
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    Priority: {
+    priority: {
         type: String,
         enum: ['Low', 'Medium', 'High', 'Urgent'],
     },
-    Status: {
+    status: {
         type: String,
         enum: ['Open', 'In Progress', 'Resolved', 'Closed', 'Reopened'],
     },
-    AssignedToUserID: {
+    assignedToUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    Category: String, // You can create a separate "Category" model and use a reference if needed
-    OpenDate: {
+    category: String, // You can create a separate "Category" model and use a reference if needed
+    openDate: {
         type: Date,
         default: Date.now,
     },
-    CloseDate: Date, // Optional
-    ExpectedResolutionDate: Date, // Optional
-    ActualResolutionDate: Date, // Optional
-    Resolution: String, // Optional
-    RelatedProductID: {
+    closeDate: Date, // Optional
+    expectedResolutionDate: Date, // Optional
+    actualResolutionDate: Date, // Optional
+    resolution: String, // Optional
+    relatedProductID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product', // Reference to the Products model (optional)
     },
-    Attachments: [String], // An array of file URLs or paths
-    Feedback: String, // Optional
-    FeedbackComments: String, // Optional
-    FollowUpRequired: Boolean,
-    FollowUpDate: Date, // Optional
-    LastUpdatedDate: {
+    attachments: [String], // An array of file URLs or paths
+    feedback: String, // Optional
+    feedbackComments: String, // Optional
+    followUpRequired: Boolean,
+    followUpDate: Date, // Optional
+    lastUpdatedDate: {
         type: Date,
         default: Date.now,
     },
-    LastUpdatedByUserID: {
+    lastUpdatedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
     },
-    InternalNotes: String, // Optional
-    Origin: {
+    internalNotes: String, // Optional
+    origin: {
         type: String,
         enum: ['Email', 'Web', 'Phone', 'Chat', 'Other'], // Add more origin types as needed
     },
-    RelatedOrderID: {
+    relatedOrderID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order', // Reference to the Orders model (optional)
     },
-    EscalationLevel: Number, // Optional
-    TimeToFirstResponse: String, // Optional (can be Time or Duration)
-    TimeToResolution: String, // Optional (can be Time or Duration)
-    Notes: String, // Optional
+    escalationLevel: Number, // Optional
+    timeToFirstResponse: String, // Optional (can be Time or Duration)
+    timeToResolution: String, // Optional (can be Time or Duration)
+    notes: String, // Optional
 });
 
 const SupportTicket = mongoose.model('SupportTicket', supportTicketSchema);
@@ -2588,49 +2548,49 @@ const SupportTicket = mongoose.model('SupportTicket', supportTicketSchema);
 
 //* Ticket Comments
 const ticketCommentSchema = new mongoose.Schema({
-    CommentID: {
+    commentID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If CommentID should be unique
+        unique: true, // If commentID should be unique
     },
-    TicketID: {
+    ticketID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SupportTicket', // Reference to the SupportTicket model
         required: true,
     },
-    CommentText: String,
-    CommentedByUserID: {
+    commentText: String,
+    commentedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    CommentDate: {
+    commentDate: {
         type: Date,
         default: Date.now,
     },
-    Attachment: [String], // Array of file URLs or paths (optional)
-    CommentType: {
+    attachment: [String], // Array of file URLs or paths (optional)
+    commentType: {
         type: String,
         enum: ['User', 'Agent', 'System', 'Other'],
     },
-    IsInternal: Boolean,
-    IsEdited: Boolean,
-    EditedByUserID: {
+    isInternal: Boolean,
+    isEdited: Boolean,
+    editedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    EditDate: Date, // Optional
-    RelatedToAction: {
+    editDate: Date, // Optional
+    relatedToAction: {
         type: String,
         enum: ['Status Change', 'Resolution Update', 'Escalation', 'Other'],
     },
-    PreviousValue: String, // Optional
-    NewValue: String, // Optional
-    CommentMood: {
+    previousValue: String, // Optional
+    newValue: String, // Optional
+    commentMood: {
         type: String,
         enum: ['Neutral', 'Positive', 'Negative', 'Other'],
     },
-    Notes: String, // Optional
+    notes: String, // Optional
 });
 
 const TicketComment = mongoose.model('TicketComment', ticketCommentSchema);
@@ -2642,79 +2602,79 @@ const TicketComment = mongoose.model('TicketComment', ticketCommentSchema);
 
 //* Shift Schedules
 const shiftScheduleSchema = new mongoose.Schema({
-    ShiftID: {
+    shiftID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If ShiftID should be unique
+        unique: true, // If shiftID should be unique
     },
-    EmployeeID: {
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetail', // Reference to the Employee Detail model
         required: true,
     },
-    StartDate: {
+    startDate: {
         type: Date,
         required: true,
     },
-    EndDate: {
+    endDate: {
         type: Date,
         required: true,
     },
-    ShiftType: {
+    shiftType: {
         type: String,
         enum: ['Morning', 'Afternoon', 'Night', 'Other'],
         required: true,
     },
-    RoleID: {
+    roleID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role', // Reference to the Roles model (optional)
     },
-    LocationID: {
+    locationID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Location', // Reference to Warehouse Locations or Office Locations model (optional)
     },
-    ShiftStatus: {
+    shiftStatus: {
         type: String,
         enum: ['Scheduled', 'Completed', 'Cancelled', 'Other'],
         required: true,
     },
-    BreakStartTime: Date, // Optional
-    BreakEndTime: Date, // Optional
-    TotalHours: {
+    breakStartTime: Date, // Optional
+    breakEndTime: Date, // Optional
+    totalHours: {
         type: Number,
         required: true,
     },
-    OvertimeHours: {
+    overtimeHours: {
         type: Number,
         default: 0,
     },
-    CreatedByUserID: {
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    CreationDate: {
+    creationDate: {
         type: Date,
         default: Date.now,
     },
-    LastModifiedByUserID: {
+    lastModifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    LastModifiedDate: Date, // Optional
-    SwapRequestStatus: {
+    lastModifiedDate: Date, // Optional
+    swapRequestStatus: {
         type: String,
         enum: ['Requested', 'Approved', 'Denied', 'NotRequested', 'Other'],
     },
-    RequestedSwapWithEmployeeID: {
+    requestedSwapWithEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetail', // Reference to the Employee Detail model (optional)
     },
-    SwapApprovalByUserID: {
+    swapApprovalByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    Notes: String, // Optional
+    notes: String, // Optional
 });
 
 const ShiftSchedule = mongoose.model('ShiftSchedule', shiftScheduleSchema);
@@ -2726,73 +2686,73 @@ const ShiftSchedule = mongoose.model('ShiftSchedule', shiftScheduleSchema);
 
 //* Vacation Requests
 const vacationRequestSchema = new mongoose.Schema({
-    RequestID: {
+    requestID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If RequestID should be unique
+        unique: true, // If requestID should be unique
     },
-    EmployeeID: {
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetail', // Reference to the Employee Detail model
         required: true,
     },
-    StartDate: {
+    startDate: {
         type: Date,
         required: true,
     },
-    EndDate: {
+    endDate: {
         type: Date,
         required: true,
     },
-    TotalDaysRequested: {
+    totalDaysRequested: {
         type: Number,
         required: true,
     },
-    RequestDate: {
+    requestDate: {
         type: Date,
         required: true,
     },
-    RequestStatus: {
+    requestStatus: {
         type: String,
         enum: ['Pending', 'Approved', 'Denied', 'Cancelled', 'Other'],
         required: true,
     },
-    ReasonForVacation: String, // Optional
-    ManagerNotes: String, // Optional
-    ApprovedByUserID: {
+    reasonForVacation: String, // Optional
+    managerNotes: String, // Optional
+    approvedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ApprovalDate: Date, // Optional
-    IsPaidLeave: Boolean,
-    VacationType: {
+    approvalDate: Date, // Optional
+    isPaidLeave: Boolean,
+    vacationType: {
         type: String,
         enum: ['Annual Leave', 'Sick Leave', 'Personal Day', 'Maternity/Paternity', 'Other'],
     },
-    AttachedDocuments: String, // File or URL (optional)
-    EmergencyContactName: String, // Optional
-    EmergencyContactNumber: String, // Optional
-    RequestedCoverageEmployeeID: {
+    attachedDocuments: String, // File or URL (optional)
+    emergencyContactName: String, // Optional
+    emergencyContactNumber: String, // Optional
+    requestedCoverageEmployeeID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EmployeeDetail', // Reference to the Employee Detail model (optional)
     },
-    CoverageStatus: {
+    coverageStatus: {
         type: String,
         enum: ['NotNeeded', 'Requested', 'Approved', 'Denied', 'Other'],
     },
-    ReturnDate: Date,
-    ActualReturnDate: Date, // Optional
-    CreatedByUserID: {
+    returnDate: Date,
+    actualReturnDate: Date, // Optional
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    LastModifiedByUserID: {
+    lastModifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    LastModifiedDate: Date, // Optional
-    Notes: String, // Optional
+    lastModifiedDate: Date, // Optional
+    notes: String, // Optional
 });
 
 const VacationRequest = mongoose.model('VacationRequest', vacationRequestSchema);
@@ -2804,62 +2764,62 @@ const VacationRequest = mongoose.model('VacationRequest', vacationRequestSchema)
 
 //* HR Policies
 const hrPolicySchema = new mongoose.Schema({
-    PolicyID: {
+    policyID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If PolicyID should be unique
+        unique: true, // If policyID should be unique
     },
-    PolicyTitle: {
+    policyTitle: {
         type: String,
         required: true,
     },
-    PolicyCategory: {
+    policyCategory: {
         type: String,
         enum: ['Attendance', 'Benefits', 'Conduct', 'Equal Opportunity', 'Other'],
         required: true,
     },
-    PolicyVersion: {
+    policyVersion: {
         type: String,
         required: true,
     },
-    EffectiveDate: {
+    effectiveDate: {
         type: Date,
         required: true,
     },
-    EndDate: Date, // Optional
-    PolicySummary: String,
-    PolicyDetail: String, // Text or LongText
-    CreatedByUserID: {
+    endDate: Date, // Optional
+    policySummary: String,
+    policyDetail: String, // Text or LongText
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    LastModifiedByUserID: {
+    lastModifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    LastModifiedDate: Date, // Optional
-    ApprovalStatus: {
+    lastModifiedDate: Date, // Optional
+    approvalStatus: {
         type: String,
         enum: ['Draft', 'Pending', 'Approved', 'Archived', 'Other'],
         required: true,
     },
-    ApprovedByUserID: {
+    approvedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ApprovalDate: Date, // Optional
-    RelatedDocuments: String, // File or URL (optional)
-    AssociatedDepartment: String, // Optional
-    RevisionNotes: String, // Optional
-    FeedbackChannel: String, // Text or URL (optional)
-    ReviewFrequency: {
+    approvalDate: Date, // Optional
+    relatedDocuments: String, // File or URL (optional)
+    associatedDepartment: String, // Optional
+    revisionNotes: String, // Optional
+    feedbackChannel: String, // Text or URL (optional)
+    reviewFrequency: {
         type: String,
         enum: ['Annually', 'Bi-Annually', 'Quarterly', 'Other'],
     },
-    NextReviewDate: Date, // Optional
-    PolicyAcknowledgedBy: String, // Text (optional)
-    Notes: String, // Optional
+    nextReviewDate: Date, // Optional
+    policyAcknowledgedBy: String, // Text (optional)
+    notes: String, // Optional
 });
 
 const HrPolicy = mongoose.model('HrPolicy', hrPolicySchema);
@@ -2870,63 +2830,63 @@ const HrPolicy = mongoose.model('HrPolicy', hrPolicySchema);
 
 //* Company Goals
 const companyGoalSchema = new mongoose.Schema({
-    GoalID: {
+    goalID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If GoalID should be unique
+        unique: true, // If goalID should be unique
     },
-    GoalTitle: {
+    goalTitle: {
         type: String,
         required: true,
     },
-    GoalDescription: String,
-    StartDate: {
+    goalDescription: String,
+    startDate: {
         type: Date,
         required: true,
     },
-    TargetEndDate: {
+    targetEndDate: {
         type: Date,
         required: true,
     },
-    ActualEndDate: Date, // Optional
-    GoalStatus: {
+    actualEndDate: Date, // Optional
+    goalStatus: {
         type: String,
         enum: ['Not Started', 'In Progress', 'Completed', 'On Hold', 'Archived', 'Other'],
         required: true,
     },
-    GoalCategory: {
+    goalCategory: {
         type: String,
         enum: ['Financial', 'Operational', 'Strategic', 'HR', 'Marketing', 'Other'],
     },
-    Priority: {
+    priority: {
         type: String,
         enum: ['High', 'Medium', 'Low'],
     },
-    AssignedToDepartment: String, // Optional
-    AssignedToUserID: {
+    assignedToDepartment: String, // Optional
+    assignedToUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    ProgressPercentage: Number,
-    KPIs: String, // Text (optional)
-    Dependencies: String, // Text (optional)
-    CreatedByUserID: {
+    progressPercentage: Number,
+    kpis: String, // Text (optional)
+    dependencies: String, // Text (optional)
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    LastModifiedByUserID: {
+    lastModifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    LastModifiedDate: Date, // Optional
-    ResourcesAllocated: String, // Text (optional)
-    Milestones: String, // Text (optional)
-    Challenges: String, // Text (optional)
-    Attachments: String, // File or URL (optional)
-    Outcome: String, // Text (optional)
-    Feedback: String, // Text (optional)
-    Notes: String, // Text (optional)
+    lastModifiedDate: Date, // Optional
+    resourcesAllocated: String, // Text (optional)
+    milestones: String, // Text (optional)
+    challenges: String, // Text (optional)
+    attachments: String, // File or URL (optional)
+    outcome: String, // Text (optional)
+    feedback: String, // Text (optional)
+    notes: String, // Text (optional)
 });
 
 const CompanyGoal = mongoose.model('CompanyGoal', companyGoalSchema);
@@ -2938,62 +2898,62 @@ const CompanyGoal = mongoose.model('CompanyGoal', companyGoalSchema);
 
 //* Industry Trends
 const industryTrendSchema = new mongoose.Schema({
-    TrendID: {
+    trendID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If TrendID should be unique
+        unique: true, // If trendID should be unique
     },
-    TrendName: {
+    trendName: {
         type: String,
         required: true,
     },
-    TrendDescription: String,
-    StartDate: {
+    trendDescription: String,
+    startDate: {
         type: Date,
         required: true,
     },
-    PeakDate: Date, // Optional
-    TrendStatus: {
+    peakDate: Date, // Optional
+    trendStatus: {
         type: String,
         enum: ['Emerging', 'Peaking', 'Declining', 'Stable', 'Other'],
         required: true,
     },
-    TrendType: {
+    trendType: {
         type: String,
         enum: ['Product', 'Consumer Behavior', 'Technology', 'Regulation', 'Other'],
         required: true,
     },
-    TrendImpact: {
+    trendImpact: {
         type: String,
         enum: ['High', 'Medium', 'Low'],
     },
-    RegionsAffected: String, // Optional
-    AssociatedBrands: String, // Text (optional)
-    ResearchSource: String,
-    LinkToSource: String, // URL (optional)
-    AdditionalSources: String, // Text (optional)
-    TrendForecast: String,
-    CreatedByUserID: {
+    regionsAffected: String, // Optional
+    associatedBrands: String, // Text (optional)
+    researchSource: String,
+    linkToSource: String, // URL (optional)
+    additionalSources: String, // Text (optional)
+    trendForecast: String,
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    LastModifiedByUserID: {
+    lastModifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    LastModifiedDate: Date, // Optional
-    RelatedIndustries: String, // Text (optional)
-    Visuals: String, // File or URL (optional)
-    TrendRating: {
+    lastModifiedDate: Date, // Optional
+    relatedIndustries: String, // Text (optional)
+    visuals: String, // File or URL (optional)
+    trendRating: {
         type: String,
         enum: ['Positive', 'Neutral', 'Negative'],
     },
-    RelatedTrends: String, // Text (optional)
-    Opportunities: String, // Text (optional)
-    Challenges: String, // Text (optional)
-    KeyPlayers: String, // Text (optional)
-    Notes: String, // Text (optional)
+    relatedTrends: String, // Text (optional)
+    opportunities: String, // Text (optional)
+    challenges: String, // Text (optional)
+    keyPlayers: String, // Text (optional)
+    notes: String, // Text (optional)
 });
 
 const IndustryTrend = mongoose.model('IndustryTrend', industryTrendSchema);
@@ -3004,51 +2964,51 @@ const IndustryTrend = mongoose.model('IndustryTrend', industryTrendSchema);
 
 //* Competitor Analysis
 const competitorAnalysisSchema = new mongoose.Schema({
-    AnalysisID: {
+    analysisID: {
         type: String, // You can use Number for an integer or String for UUID
         required: true,
-        unique: true, // If AnalysisID should be unique
+        unique: true, // If analysisID should be unique
     },
-    CompetitorName: {
+    competitorName: {
         type: String,
         required: true,
     },
-    CompetitorURL: String, // URL (optional)
-    AnalysisDate: {
+    competitorURL: String, // URL (optional)
+    analysisDate: {
         type: Date,
         required: true,
     },
-    SWOT_Strengths: String,
-    SWOT_Weaknesses: String,
-    SWOT_Opportunities: String,
-    SWOT_Threats: String,
-    MarketShare: String,
-    KeyProducts: String,
-    ProductPricing: String,
-    SalesStrategy: String,
-    MarketingStrategy: String,
-    OperationalStrengths: String,
-    FinancialHealth: String,
-    KeyPartnerships: String,
-    KeyLocations: String,
-    DigitalPresenceRating: String,
-    CustomerFeedback: String,
-    InnovativeFeatures: String,
-    TargetAudience: String,
-    CreatedByUserID: {
+    swotStrengths: String,
+    swotWeaknesses: String,
+    swotOpportunities: String,
+    swotThreats: String,
+    marketShare: String,
+    keyProducts: String,
+    productPricing: String,
+    salesStrategy: String,
+    marketingStrategy: String,
+    operationalStrengths: String,
+    financialHealth: String,
+    keyPartnerships: String,
+    keyLocations: String,
+    digitalPresenceRating: String,
+    customerFeedback: String,
+    innovativeFeatures: String,
+    targetAudience: String,
+    createdByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model
         required: true,
     },
-    LastModifiedByUserID: {
+    lastModifiedByUserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to the Users model (optional)
     },
-    LastModifiedDate: Date, // Optional
-    FuturePredictions: String,
-    Visuals: String, // File or URL (optional)
-    DataSources: String,
-    Notes: String, // Text (optional)
+    lastModifiedDate: Date, // Optional
+    futurePredictions: String,
+    visuals: String, // File or URL (optional)
+    dataSources: String,
+    notes: String, // Text (optional)
 });
 
 const CompetitorAnalysis = mongoose.model('CompetitorAnalysis', competitorAnalysisSchema);
